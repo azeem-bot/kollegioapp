@@ -9,6 +9,6 @@
 
 body {
   margin: 0;
-  font-family: 'ABC Diatype Rounded', 'Nunito', sans-serif;
+  font-family: 'ABC Diatype Rounded', 'ABCDiatypeRounded', 'Nunito', sans-serif;
   background: var(--bg-base);
 }

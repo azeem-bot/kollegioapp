@@ -4,6 +4,20 @@
        local('ABC Diatype Rounded');
 }
 
+@font-face {
+  font-family: 'ABC Diatype Rounded';
+  src: url('/fonts/ABCDiatypeRounded-Bold.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatypeRounded';
+  src: url('/fonts/ABCDiatypeRounded-Bold.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+
 /* Kollegio Design System Tokens */
 :root {
   --bg-base: #f9f7f2;
