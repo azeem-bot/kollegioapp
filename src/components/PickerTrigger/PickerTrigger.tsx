@@ -32,27 +32,19 @@ export default function PickerTrigger({
   const [isOpen, setIsOpen] = useState(false)
 
   const selectedIds = Array.isArray(value) ? value : value ? [value] : []
+  const isEmpty = selectedIds.length === 0
 
-  function getDisplayValue(): string | null {
-    if (selectedIds.length === 0) return null
-    if (!multiSelect) {
-      return options.find((o) => o.id === selectedIds[0])?.label ?? null
-    }
-    if (selectedIds.length === 1) {
-      return options.find((o) => o.id === selectedIds[0])?.label ?? null
-    }
-    return `${selectedIds.length} selected`
-  }
+  const selectedOption = !multiSelect && selectedIds.length > 0
+    ? options.find((o) => o.id === selectedIds[0]) ?? null
+    : null
+
+  const visibleTags = multiSelect ? selectedIds.slice(0, 2) : []
+  const overflowCount = multiSelect ? Math.max(0, selectedIds.length - 2) : 0
 
   function handleChange(next: string | string[]) {
     onChange(next)
-    // Single-select: close immediately after pick
-    if (!multiSelect) {
-      setIsOpen(false)
-    }
+    if (!multiSelect) setIsOpen(false)
   }
-
-  const display = getDisplayValue()
 
   return (
     <>
@@ -65,9 +57,37 @@ export default function PickerTrigger({
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
-          <span className={`picker-trigger__value${display ? '' : ' picker-trigger__value--placeholder'}`}>
-            {display ?? placeholder}
-          </span>
+          <div className="picker-trigger__content">
+            {isEmpty && (
+              <span className="picker-trigger__placeholder">{placeholder}</span>
+            )}
+
+            {!multiSelect && selectedOption && (
+              <span className="picker-trigger__value">
+                {selectedOption.icon != null && (
+                  <span className="picker-trigger__icon">{selectedOption.icon}</span>
+                )}
+                {selectedOption.label}
+              </span>
+            )}
+
+            {multiSelect && !isEmpty && (
+              <>
+                {visibleTags.map((id) => {
+                  const opt = options.find((o) => o.id === id)
+                  return opt ? (
+                    <span key={id} className="picker-trigger__tag">{opt.label}</span>
+                  ) : null
+                })}
+                {overflowCount > 0 && (
+                  <span className="picker-trigger__tag picker-trigger__tag--overflow">
+                    +{overflowCount}
+                  </span>
+                )}
+              </>
+            )}
+          </div>
+
           <svg
             className={`picker-trigger__chevron${isOpen ? ' picker-trigger__chevron--open' : ''}`}
             width="16"

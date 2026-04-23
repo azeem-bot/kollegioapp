@@ -49,7 +49,7 @@ export default function PickerSheet({
       if (!sheet) return
       sheet.style.height = ''
       sheet.style.top = ''
-      sheet.style.bottom = '0'
+      sheet.style.bottom = ''
     }
 
     if (isOpen) {

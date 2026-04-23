@@ -13,22 +13,29 @@
 
 .sheet {
   position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(100%);
-  width: 100%;
-  max-width: 480px;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  width: auto;
+  max-width: calc(480px - 32px);
+  margin: 0 auto;
   background: var(--bg-white);
-  border-radius: 16px 16px 0 0;
+  border-radius: 8px;
   padding: 0 20px 40px 20px;
   overflow-y: auto;
   transition: transform 300ms ease-out, bottom 150ms ease, height 250ms ease;
   will-change: transform;
   z-index: 101;
+  transform: translateY(calc(100% + 16px));
+  font-family: 'ABC Diatype Rounded', 'Nunito', sans-serif;
+}
+
+.sheet * {
+  font-family: 'ABC Diatype Rounded', 'Nunito', sans-serif;
 }
 
 .sheet--open {
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 .sheet--expanded {
@@ -91,7 +98,7 @@
   height: 48px;
   padding: 0 48px 0 20px;
   border: 1px solid rgba(19, 38, 25, 0.3);
-  border-radius: 40px;
+  border-radius: 8px;
   font-size: 16px;
   color: var(--content-primary);
   background: white;
@@ -132,7 +139,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 8px;
-  border-radius: 8px;
+  border-radius: 0;
   gap: 16px;
   cursor: pointer;
   user-select: none;
