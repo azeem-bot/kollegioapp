@@ -1,6 +1,7 @@
 @font-face {
   font-family: 'ABC Diatype Rounded';
-  src: local('ABC Diatype Rounded'), local('ABCDiatypeRounded');
+  src: url('/fonts/ABCDiatypeRounded-Bold.otf') format('opentype'),
+       local('ABC Diatype Rounded');
 }
 
 /* Kollegio Design System Tokens */
