@@ -36,19 +36,33 @@ export default function PickerSheet({
 
   useEffect(() => {
     const handleViewportResize = () => {
-      if (window.visualViewport) {
-        const keyboardHeight = window.innerHeight - window.visualViewport.height
-        const sheet = sheetRef.current
-        if (sheet) {
-          sheet.style.bottom = keyboardHeight > 0 ? `${keyboardHeight}px` : '0'
-          sheet.style.transform = keyboardHeight > 0 ? 'translateX(-50%) translateY(0)' : ''
-        }
-      }
+      if (!window.visualViewport) return
+      const sheet = sheetRef.current
+      if (!sheet) return
+      sheet.style.height = `${window.visualViewport.height}px`
+      sheet.style.top = `${window.visualViewport.offsetTop}px`
+      sheet.style.bottom = 'auto'
     }
 
-    window.visualViewport?.addEventListener('resize', handleViewportResize)
+    const resetSheet = () => {
+      const sheet = sheetRef.current
+      if (!sheet) return
+      sheet.style.height = ''
+      sheet.style.top = ''
+      sheet.style.bottom = '0'
+    }
+
+    if (isOpen) {
+      window.visualViewport?.addEventListener('resize', handleViewportResize)
+      window.visualViewport?.addEventListener('scroll', handleViewportResize)
+    } else {
+      resetSheet()
+    }
+
     return () => {
       window.visualViewport?.removeEventListener('resize', handleViewportResize)
+      window.visualViewport?.removeEventListener('scroll', handleViewportResize)
+      resetSheet()
     }
   }, [isOpen])
 

@@ -21,6 +21,7 @@
   background: var(--bg-white);
   border-radius: 16px 16px 0 0;
   padding-bottom: 40px;
+  overflow-y: auto;
   transition: transform 300ms ease-out, bottom 150ms ease, height 250ms ease;
   will-change: transform;
   z-index: 101;
@@ -34,6 +35,7 @@
   height: 92dvh;
   display: flex;
   flex-direction: column;
+  border-radius: 0;
 }
 
 .sheet--expanded .option-list {
