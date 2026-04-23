@@ -21,13 +21,24 @@
   background: var(--bg-white);
   border-radius: 16px 16px 0 0;
   padding-bottom: 40px;
-  transition: transform 300ms ease-out;
+  transition: transform 300ms ease-out, bottom 150ms ease, height 250ms ease;
   will-change: transform;
   z-index: 101;
 }
 
 .sheet--open {
   transform: translateX(-50%) translateY(0);
+}
+
+.sheet--expanded {
+  height: 92dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet--expanded .option-list {
+  flex: 1;
+  max-height: none;
 }
 
 .drag-handle {
@@ -105,7 +116,7 @@
 
 .option-list {
   overflow-y: auto;
-  max-height: 48vh;
+  max-height: 40dvh;
   padding: 0 8px;
   scrollbar-width: none;
 }

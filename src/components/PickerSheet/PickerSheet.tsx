@@ -27,10 +27,30 @@ export default function PickerSheet({
 }: Props) {
   const [isVisible, setIsVisible] = useState(false)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
   const [query, setQuery] = useState('')
   const searchRef = useRef<HTMLInputElement>(null)
+  const sheetRef = useRef<HTMLDivElement>(null)
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    const handleViewportResize = () => {
+      if (window.visualViewport) {
+        const keyboardHeight = window.innerHeight - window.visualViewport.height
+        const sheet = sheetRef.current
+        if (sheet) {
+          sheet.style.bottom = keyboardHeight > 0 ? `${keyboardHeight}px` : '0'
+          sheet.style.transform = keyboardHeight > 0 ? 'translateX(-50%) translateY(0)' : ''
+        }
+      }
+    }
+
+    window.visualViewport?.addEventListener('resize', handleViewportResize)
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleViewportResize)
+    }
+  }, [isOpen])
 
   useEffect(() => {
     if (isOpen) {
@@ -45,6 +65,7 @@ export default function PickerSheet({
     } else {
       setIsSheetOpen(false)
       setQuery('')
+      setIsExpanded(false)
       closeTimerRef.current = setTimeout(() => {
         setIsVisible(false)
       }, 250)
@@ -87,7 +108,7 @@ export default function PickerSheet({
         className={`backdrop${isSheetOpen ? ' backdrop--visible' : ''}`}
         onClick={onClose}
       />
-      <div className={`sheet${isSheetOpen ? ' sheet--open' : ''}`}>
+      <div ref={sheetRef} className={`sheet${isSheetOpen ? ' sheet--open' : ''}${isExpanded ? ' sheet--expanded' : ''}`}>
         <span className="drag-handle" />
 
         <div className="header">
@@ -108,7 +129,12 @@ export default function PickerSheet({
               type="text"
               placeholder={searchPlaceholder}
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                const next = e.target.value
+                if (next.length === 1 && query.length === 0) setIsExpanded(true)
+                if (next.length === 0) setIsExpanded(false)
+                setQuery(next)
+              }}
             />
             <svg
               className="search-wrap__icon"
