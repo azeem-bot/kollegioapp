@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'ABC Diatype Rounded';
+  src: local('ABC Diatype Rounded'), local('ABCDiatypeRounded');
+}
+
 /* Kollegio Design System Tokens */
 :root {
   --bg-base: #f9f7f2;
